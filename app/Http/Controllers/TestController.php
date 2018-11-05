@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 class TestController extends Controller
 {
+    use Result;
     /**
      * 获取用户数据
      * @param Request $request
@@ -49,15 +50,9 @@ $pageSize=$request->input('pagesize',2);
     public function destroy(Test $test)
     {
         if($test->delete()){
-            return[
-                'message'=>'success',
-                'status_code'=>200,
-            ];
+           $this->success();
         }else{
-            return[
-                'message'=>'error',
-                'status_code'=>404,
-            ];
+          $this->error();
         }
 
     }
@@ -66,15 +61,9 @@ $pageSize=$request->input('pagesize',2);
     {
         $data=$request->only('name','sex','age');
         if(Test::create($data)){
-            return[
-                'message'=>'success',
-                'status_code'=>200,
-            ];
+            $this->success();
         }else{
-            return[
-                'message'=>'error',
-                'status_code'=>404,
-            ];
+            $this->error();
         }
     }
 
@@ -82,15 +71,9 @@ $pageSize=$request->input('pagesize',2);
     {
         $data=$request->only('name','sex','age');
         if(Test::where('id',$test->id)->update($data)){
-            return[
-                'message'=>'success',
-                'status_code'=>200,
-            ];
+            $this->success();
         }else{
-            return[
-                'message'=>'error',
-                'status_code'=>404,
-            ];
+            $this->error();
         }
     }
 }
