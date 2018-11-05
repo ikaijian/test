@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 class TestController extends Controller
 {
     use Result;
+
     /**
      * 获取用户数据
      * @param Request $request
@@ -19,14 +20,14 @@ class TestController extends Controller
         //获取表中的所有数据,
         //all()与get（）区别，他们返回的结果相同， 添加查询条件时不可以使用all()
 //       $data=Test::all();
-$pageSize=$request->input('pagesize',2);
-       $data=Test::Name()->Sex()->paginate($pageSize);
+        $pageSize = $request->input('pagesize', 2);
+        $data = Test::Name()->Sex()->paginate($pageSize);
 
 
         //过滤表中的数据
 //       $data=Test::where('age',177)->get();
 
-       //链式约束
+        //链式约束
 //       $data=Test::orderBy('created_at','desc')
 //           ->take(3)
 //           ->get();
@@ -49,31 +50,31 @@ $pageSize=$request->input('pagesize',2);
 
     public function destroy(Test $test)
     {
-        if($test->delete()){
-           $this->success();
-        }else{
-          $this->error();
+        if ($test->delete()) {
+            return $this->success();
+        } else {
+            return $this->error();
         }
 
     }
 
     public function store(Request $request)
     {
-        $data=$request->only('name','sex','age');
-        if(Test::create($data)){
-            $this->success();
-        }else{
+        $data = $request->only('name', 'sex', 'age');
+        if (Test::create($data)) {
+            return $this->success();
+        } else {
             $this->error();
         }
     }
 
-    public function update(Request $request,Test $test)
+    public function update(Request $request, Test $test)
     {
-        $data=$request->only('name','sex','age');
-        if(Test::where('id',$test->id)->update($data)){
-            $this->success();
-        }else{
-            $this->error();
+        $data = $request->only('name', 'sex', 'age');
+        if (Test::where('id', $test->id)->update($data)) {
+            return $this->success();
+        } else {
+            return $this->error();
         }
     }
 }
